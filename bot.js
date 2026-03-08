@@ -1,12 +1,18 @@
-const { Connection, clusterApiUrl } = require("@solana/web3.js");
+const { Connection, PublicKey } = require("@solana/web3.js");
 
 const connection = new Connection(
-  clusterApiUrl("mainnet-beta"),
+  "https://api.mainnet-beta.solana.com",
   "confirmed"
 );
 
-console.log("Bot running...");
+// Pump.fun program ID
+const PUMP_FUN = new PublicKey(
+  "6EF8rrecthR5Dkzon8Nwu78qLk8rCkJx9sC7bT9Z8V1"
+);
 
-connection.onLogs("all", (logInfo) => {
-  console.log("Transaction:", logInfo.signature);
+console.log("Watching Pump.fun launches...");
+
+connection.onLogs(PUMP_FUN, (logInfo) => {
+  console.log("🚀 Pump.fun activity detected");
+  console.log("TX:", logInfo.signature);
 });
